@@ -201,7 +201,7 @@ driver.quit();
 
 ## Questionando a Selenium Grid
 
-Após iniciar a Gris, existem duas formas de saber o seu estado, através da Grid UI ou
+Após iniciar a Grid, existem duas formas de saber o seu estado, através da Grid UI ou
 por chamada API.
 
 A Grid UI pode ser acedida pelo seu navegador preferido em [http://localhost:4444](http://localhost:4444). 
