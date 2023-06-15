@@ -9,7 +9,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerDriverLogLevel;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.File;
 import java.io.IOException;
