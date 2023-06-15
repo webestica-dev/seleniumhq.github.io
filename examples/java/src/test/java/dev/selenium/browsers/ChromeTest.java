@@ -1,5 +1,6 @@
 package dev.selenium.browsers;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,23 +35,18 @@ public class ChromeTest {
     }
 
     @Test
-    public void headlessOptions() {
+    public void arguments() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
     }
 
     @Test
-    public void keepBrowserOpen() {
+    public void excludeSwitches() {
         ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("detach", true);
-        driver = new ChromeDriver(options);
-    }
+        options.setExperimentalOption("excludeSwitches", ImmutableList.of("disable-popup-blocking"));
 
-    @Test
-    public void defaultService() {
-        ChromeDriverService service = new ChromeDriverService.Builder().build();
-        driver = new ChromeDriver(service);
+        driver = new ChromeDriver(options);
     }
 
     @Test

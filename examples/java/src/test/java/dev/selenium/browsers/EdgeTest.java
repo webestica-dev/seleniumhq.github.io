@@ -1,27 +1,30 @@
 package dev.selenium.browsers;
 
+import com.google.common.collect.ImmutableList;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.chromium.ChromiumDriverLogLevel;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeDriverService;
+import org.openqa.selenium.edge.EdgeOptions;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.util.regex.Pattern;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.chromium.ChromiumDriverLogLevel;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeDriverService;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.remote.service.DriverService;
-
 public class EdgeTest {
-    public EdgeDriver driver;
+    private EdgeDriver driver;
     private final File logLocation = new File("msedgedriver.log");
 
     @AfterEach
     public void quit() {
+        if( logLocation.exists()) {
+            logLocation.delete();
+        }
+
         driver.quit();
     }
 
@@ -32,16 +35,18 @@ public class EdgeTest {
     }
 
     @Test
-    public void headlessOptions() {
+    public void arguments() {
         EdgeOptions options = new EdgeOptions();
-        options.addArguments("--headless=new");
+        options.addArguments("--start-maximized");
         driver = new EdgeDriver(options);
     }
 
     @Test
-    public void defaultService() {
-        EdgeDriverService service = new EdgeDriverService.Builder().build();
-        driver = new EdgeDriver(service);
+    public void excludeSwitches() {
+        EdgeOptions options = new EdgeOptions();
+        options.setExperimentalOption("excludeSwitches", ImmutableList.of("disable-popup-blocking"));
+
+        driver = new EdgeDriver(options);
     }
 
     @Test
@@ -72,7 +77,7 @@ public class EdgeTest {
 
     @Test
     public void logsWithLevel() throws IOException {
-        System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY,
+        System.setProperty(EdgeDriverService.EDGE_DRIVER_LOG_PROPERTY,
                 logLocation.getAbsolutePath());
 
         EdgeDriverService service = new EdgeDriverService.Builder()

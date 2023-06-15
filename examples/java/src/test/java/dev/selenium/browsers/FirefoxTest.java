@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.*;
-import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FirefoxTest extends BaseTest {
-    public FirefoxDriver driver;
+    private FirefoxDriver driver;
     private final File logLocation = new File("geckodriver.log");
     private final File tempPath = new File("temp");
 
@@ -41,49 +40,10 @@ public class FirefoxTest extends BaseTest {
     }
 
     @Test
-    public void installAddon() {
-        driver = new FirefoxDriver();
-        Path xpiPath = Paths.get("src/test/resources/extensions/selenium-example.xpi");
-        driver.installExtension(xpiPath);
-
-        driver.get("https://www.selenium.dev/selenium/web/blank.html");
-        WebElement injected = driver.findElement(By.id("webextensions-selenium-example"));
-        Assertions.assertEquals("Content injected by webextensions-selenium-example", injected.getText());
-    }
-
-    @Test
-    public void uninstallAddon() {
-        driver = new FirefoxDriver();
-        Path xpiPath = Paths.get("src/test/resources/extensions/selenium-example.xpi");
-        String id = driver.installExtension(xpiPath);
-        driver.uninstallExtension(id);
-
-        driver.get("https://www.selenium.dev/selenium/web/blank.html");
-        Assertions.assertEquals(driver.findElements(By.id("webextensions-selenium-example")).size(), 0);
-    }
-
-    @Test
-    public void installUnsignedAddonPath() {
-        driver = new FirefoxDriver();
-        Path path = Paths.get("src/test/resources/extensions/selenium-example");
-        driver.installExtension(path, true);
-
-        driver.get("https://www.selenium.dev/selenium/web/blank.html");
-        WebElement injected = getLocatedElement(driver, By.id("webextensions-selenium-example"));
-        Assertions.assertEquals("Content injected by webextensions-selenium-example", injected.getText());
-    }
-
-    @Test
-    public void headlessOptions() {
+    public void arguments() {
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments("-headless");
         driver = new FirefoxDriver(options);
-    }
-
-    @Test
-    public void defaultService() {
-        FirefoxDriverService service = new GeckoDriverService.Builder().build();
-        driver = new FirefoxDriver(service);
     }
 
     @Test
@@ -128,7 +88,6 @@ public class FirefoxTest extends BaseTest {
     }
 
     @Test
-    @Disabled("Implemented in 4.10")
     public void stopsTruncatingLogs() throws IOException {
         System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY,
                 logLocation.getAbsolutePath());
@@ -160,4 +119,38 @@ public class FirefoxTest extends BaseTest {
         String last = directories[directories.length-1];
         Assertions.assertEquals(tempPath.getAbsolutePath() + "/" + last, location);
     }
+
+    @Test
+    public void installAddon() {
+        driver = new FirefoxDriver();
+        Path xpiPath = Paths.get("src/test/resources/extensions/selenium-example.xpi");
+        driver.installExtension(xpiPath);
+
+        driver.get("https://www.selenium.dev/selenium/web/blank.html");
+        WebElement injected = driver.findElement(By.id("webextensions-selenium-example"));
+        Assertions.assertEquals("Content injected by webextensions-selenium-example", injected.getText());
+    }
+
+    @Test
+    public void uninstallAddon() {
+        driver = new FirefoxDriver();
+        Path xpiPath = Paths.get("src/test/resources/extensions/selenium-example.xpi");
+        String id = driver.installExtension(xpiPath);
+        driver.uninstallExtension(id);
+
+        driver.get("https://www.selenium.dev/selenium/web/blank.html");
+        Assertions.assertEquals(driver.findElements(By.id("webextensions-selenium-example")).size(), 0);
+    }
+
+    @Test
+    public void installUnsignedAddonPath() {
+        driver = new FirefoxDriver();
+        Path path = Paths.get("src/test/resources/extensions/selenium-example");
+        driver.installExtension(path, true);
+
+        driver.get("https://www.selenium.dev/selenium/web/blank.html");
+        WebElement injected = getLocatedElement(driver, By.id("webextensions-selenium-example"));
+        Assertions.assertEquals("Content injected by webextensions-selenium-example", injected.getText());
+    }
+
 }

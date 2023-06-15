@@ -40,12 +40,6 @@ public class InternetExplorerTest {
     }
 
     @Test
-    public void defaultService() {
-        InternetExplorerDriverService service = new InternetExplorerDriverService.Builder().build();
-        driver = new InternetExplorerDriver(service);
-    }
-
-    @Test
     public void logsToFile() throws IOException {
         InternetExplorerDriverService service = new InternetExplorerDriverService.Builder()
                 .withLogFile(logLocation)

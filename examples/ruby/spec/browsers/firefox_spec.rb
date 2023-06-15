@@ -112,7 +112,6 @@ RSpec.describe 'Firefox' do
       service = Selenium::WebDriver::Service.firefox
       service.args += ['--profile-root', root_directory]
 
-
       @driver = Selenium::WebDriver.for :firefox, service: service
 
       profile_location = File.new(@driver.capabilities['moz:profile'])

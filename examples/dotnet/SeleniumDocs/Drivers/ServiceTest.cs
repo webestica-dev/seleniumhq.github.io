@@ -11,7 +11,7 @@ namespace SeleniumDocs.Drivers
     [TestClass]
     public class ServiceTest : BaseTest
     {
-        private readonly string _driverLocation = Environment.GetEnvironmentVariable("CHROMEWEBDRIVER") + "/chromedriver";
+        private readonly string driverLocation = Environment.GetEnvironmentVariable("CHROMEWEBDRIVER") + "/chromedriver";
 
         [TestMethod]
         public void BasicService()
@@ -24,7 +24,7 @@ namespace SeleniumDocs.Drivers
         public void DriverLocation()
         {
             var service = ChromeDriverService.CreateDefaultService();
-            service.DriverServicePath = _driverLocation;
+            service.DriverServicePath = driverLocation;
 
             driver = new ChromeDriver(service);
         }
